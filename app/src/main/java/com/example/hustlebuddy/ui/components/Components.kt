@@ -108,7 +108,8 @@ fun SectionHeader(
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     NavigationBar {
-        val currentRoute = navController.currentBackStackEntry?.destination?.route
+        val currentBackStackEntry = navController.currentBackStackEntry
+        val currentRoute = currentBackStackEntry?.destination?.route
         
         val items = listOf(
             Triple(Screen.Home, "Home", Icons.Default.Home),

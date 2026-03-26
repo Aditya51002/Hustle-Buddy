@@ -18,11 +18,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.hustlebuddy.ui.components.BottomNavigationBar
 import com.example.hustlebuddy.ui.components.SectionHeader
 import com.example.hustlebuddy.ui.components.StudyBuddyCard
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProgressScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     val stats by viewModel.stats.collectAsState()
@@ -114,7 +115,7 @@ fun ProgressScreen(navController: NavController, viewModel: StudyBuddyViewModel)
                         heights.forEachIndexed { index, h ->
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 LinearProgressIndicator(
-                                    progress = h,
+                                    progress = { h },
                                     modifier = Modifier
                                         .height(100.dp)
                                         .width(12.dp),

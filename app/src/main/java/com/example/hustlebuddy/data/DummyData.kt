@@ -33,7 +33,7 @@ object DummyData {
         ))
     )
 
-    val user = User("John Doe", "john.doe@example.com")
+    val user = User("Aditya", "aditya510@gmail.com")
     
     val stats = ProgressStats(12, 45.5f, 850, 7)
 }

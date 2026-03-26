@@ -1,10 +1,10 @@
 package com.example.hustlebuddy.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,10 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hustlebuddy.navigation.Screen
-import com.example.hustlebuddy.ui.components.StudyBuddyCard
+import com.example.hustlebuddy.ui.components.BottomNavigationBar
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     val user by viewModel.user.collectAsState()
@@ -94,7 +94,7 @@ fun ProfileScreen(navController: NavController, viewModel: StudyBuddyViewModel) 
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.errorContainer, contentColor = MaterialTheme.colorScheme.error),
                 shape = MaterialTheme.shapes.medium
             ) {
-                Icon(Icons.Default.Logout, contentDescription = null)
+                Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Logout")
             }

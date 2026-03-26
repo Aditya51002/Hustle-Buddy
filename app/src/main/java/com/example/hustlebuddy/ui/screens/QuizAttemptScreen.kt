@@ -19,15 +19,15 @@ import androidx.navigation.NavController
 import com.example.hustlebuddy.navigation.Screen
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizAttemptScreen(navController: NavController, viewModel: StudyBuddyViewModel, quizId: String) {
     val quizzes by viewModel.quizzes.collectAsState()
     val quiz = quizzes.find { it.id == quizId } ?: return
 
-    var currentQuestionIndex by remember { mutableStateOf(0) }
-    var selectedOptionIndex by remember { mutableStateOf(-1) }
-    var score by remember { mutableStateOf(0) }
+    var currentQuestionIndex by remember { mutableIntStateOf(0) }
+    var selectedOptionIndex by remember { mutableIntStateOf(-1) }
+    var score by remember { mutableIntStateOf(0) }
 
     val currentQuestion = quiz.questions[currentQuestionIndex]
 
@@ -50,7 +50,7 @@ fun QuizAttemptScreen(navController: NavController, viewModel: StudyBuddyViewMod
                 .padding(24.dp)
         ) {
             LinearProgressIndicator(
-                progress = (currentQuestionIndex + 1).toFloat() / quiz.questions.size,
+                progress = { (currentQuestionIndex + 1).toFloat() / quiz.questions.size },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(32.dp))

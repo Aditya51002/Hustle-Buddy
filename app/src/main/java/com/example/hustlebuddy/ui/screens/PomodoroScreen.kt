@@ -1,14 +1,10 @@
 package com.example.hustlebuddy.ui.screens
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,10 +18,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PomodoroScreen(navController: NavController) {
-    var timeLeft by remember { mutableStateOf(25 * 60) }
+    var timeLeft by remember { mutableIntStateOf(25 * 60) }
     var isRunning by remember { mutableStateOf(false) }
     var isBreak by remember { mutableStateOf(false) }
 

@@ -14,7 +14,7 @@ import com.example.hustlebuddy.ui.components.StudyBuddyTextField
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 import java.util.UUID
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScheduleScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     var date by remember { mutableStateOf("") }

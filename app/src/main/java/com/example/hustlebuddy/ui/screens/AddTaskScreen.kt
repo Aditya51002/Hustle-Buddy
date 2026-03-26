@@ -15,7 +15,7 @@ import com.example.hustlebuddy.ui.components.StudyBuddyTextField
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 import java.util.UUID
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     var title by remember { mutableStateOf("") }
@@ -51,7 +51,7 @@ fun AddTaskScreen(navController: NavController, viewModel: StudyBuddyViewModel) 
 
             Text("Priority", style = MaterialTheme.typography.titleMedium)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Priority.values().forEach { p ->
+                Priority.entries.forEach { p ->
                     FilterChip(
                         selected = priority == p,
                         onClick = { priority = p },

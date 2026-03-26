@@ -23,7 +23,7 @@ import com.example.hustlebuddy.ui.components.StudyBuddyTextField
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 import java.util.UUID
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddSubjectScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     var name by remember { mutableStateOf("") }
@@ -95,7 +95,7 @@ fun AddSubjectScreen(navController: NavController, viewModel: StudyBuddyViewMode
                     // TODO: Save to database here
                     if (name.isNotBlank()) {
                         viewModel.addSubject(
-                            Subject(UUID.randomUUID().toString(), name, selectedColor, "book", 0f)
+                            Subject(UUID.randomUUID().toString(), name, selectedColor.toLong(), "book", 0f)
                         )
                         navController.navigateUp()
                     }

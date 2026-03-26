@@ -1,6 +1,5 @@
 package com.example.hustlebuddy.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,9 +22,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hustlebuddy.model.Subject
 import com.example.hustlebuddy.navigation.Screen
+import com.example.hustlebuddy.ui.components.BottomNavigationBar
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     val subjects by viewModel.subjects.collectAsState()
@@ -104,7 +104,7 @@ fun SubjectCard(subject: Subject) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 LinearProgressIndicator(
-                    progress = subject.progress,
+                    progress = { subject.progress },
                     modifier = Modifier.fillMaxWidth(),
                     color = Color(subject.color),
                     trackColor = Color(subject.color).copy(alpha = 0.2f)

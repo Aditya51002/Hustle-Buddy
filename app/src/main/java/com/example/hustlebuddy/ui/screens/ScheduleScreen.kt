@@ -17,10 +17,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hustlebuddy.model.Schedule
 import com.example.hustlebuddy.navigation.Screen
+import com.example.hustlebuddy.ui.components.BottomNavigationBar
 import com.example.hustlebuddy.ui.components.StudyBuddyCard
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     val schedules by viewModel.schedules.collectAsState()

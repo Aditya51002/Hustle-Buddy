@@ -13,13 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hustlebuddy.navigation.Screen
 import com.example.hustlebuddy.ui.components.*
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     val user by viewModel.user.collectAsState()
@@ -76,7 +75,7 @@ fun HomeScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
                             )
                         }
                         CircularProgressIndicator(
-                            progress = 0.75f,
+                            progress = { 0.75f },
                             modifier = Modifier.size(48.dp),
                             strokeWidth = 6.dp
                         )
