@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.hustlebuddy.ui.components.StudyBuddyCard
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,6 +33,7 @@ fun PomodoroScreen(navController: NavController) {
         } else if (timeLeft == 0) {
             isRunning = false
             // TODO: Trigger notification or sound
+            // TODO: x7 Store session data
         }
     }
 
@@ -42,6 +44,11 @@ fun PomodoroScreen(navController: NavController) {
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(Icons.Default.ArrowBack, "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { navController.navigate("session_history") }) {
+                        Icon(Icons.Default.History, "History")
                     }
                 }
             )
@@ -145,16 +152,23 @@ fun PomodoroScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(48.dp))
             
-            Card(
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = "\"The expert in anything was once a beginner.\"",
-                    modifier = Modifier.padding(20.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium
-                )
+            // Session logs summary
+            StudyBuddyCard {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(text = "3", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Text(text = "Sessions", style = MaterialTheme.typography.labelSmall)
+                    }
+                    VerticalDivider(modifier = Modifier.height(40.dp))
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(text = "75m", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Text(text = "Focus Time", style = MaterialTheme.typography.labelSmall)
+                    }
+                }
             }
         }
     }

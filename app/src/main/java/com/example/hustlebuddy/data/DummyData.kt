@@ -4,10 +4,10 @@ import com.example.hustlebuddy.model.*
 
 object DummyData {
     val subjects = listOf(
-        Subject("1", "Mathematics", 0xFF4285F4, "math", 0.7f),
-        Subject("2", "Physics", 0xFFEA4335, "physics", 0.4f),
-        Subject("3", "Computer Science", 0xFF34A853, "code", 0.9f),
-        Subject("4", "History", 0xFFFBBC05, "history", 0.2f)
+        Subject("1", "Mathematics", 0xFF4285F4, "math", 0.7f, 15.5f, 85, 12),
+        Subject("2", "Physics", 0xFFEA4335, "physics", 0.4f, 8.2f, 72, 8),
+        Subject("3", "Computer Science", 0xFF34A853, "code", 0.9f, 25.0f, 95, 20),
+        Subject("4", "History", 0xFFFBBC05, "history", 0.2f, 4.0f, 60, 3)
     )
 
     val tasks = listOf(
@@ -33,7 +33,27 @@ object DummyData {
         ))
     )
 
-    val user = User("Aditya", "aditya510@gmail.com")
+    val user = User("Aditya ", "aditya1@example.com", xp = 1250, level = "Consistent Learner", studyScore = 78)
     
-    val stats = ProgressStats(12, 45.5f, 850, 7)
+    val stats = ProgressStats(12, 45.5f, 850, 7, listOf(0.4f, 0.7f, 0.5f, 0.9f, 0.6f, 0.8f, 1f))
+
+    val insights = listOf(
+        Insight("1", "Night Owl", "You study better in the evening 🌙", "NightsStay", InsightType.POSITIVE),
+        Insight("2", "Subject Focus", "Math has lowest completion rate", "Warning", InsightType.ALERT),
+        Insight("3", "Weekend Break", "You skip tasks on weekends", "EventBusy", InsightType.NEUTRAL)
+    )
+
+    val challenges = listOf(
+        Challenge("1", "Daily Sprint", "Complete 3 tasks today", 0.66f, false, 50),
+        Challenge("2", "Consistency King", "Study 5 days in a row", 1.0f, true, 200),
+        Challenge("3", "Quiz Whiz", "Score 90%+ in 3 quizzes", 0.33f, false, 150)
+    )
+
+    val dailyGoals = listOf(
+        DailyGoal("1", "Study Time", 2.0f, 1.5f, "hours"),
+        DailyGoal("2", "Tasks Done", 5.0f, 3.0f, "tasks"),
+        DailyGoal("3", "Quiz Taken", 1.0f, 1.0f, "quiz")
+    )
+
+    val heatmapData = List(30) { (0..10).random() / 10f } // Mock 30 days of data
 }

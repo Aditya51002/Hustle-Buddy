@@ -30,6 +30,9 @@ sealed class Screen(val route: String) {
     object Progress : Screen("progress")
     object Profile : Screen("profile")
     object Notifications : Screen("notifications")
+    object Insights : Screen("insights")
+    object Challenges : Screen("challenges")
+    object SessionHistory : Screen("session_history")
 }
 
 @Composable
@@ -93,6 +96,15 @@ fun NavGraph(navController: NavHostController) {
         }
         composable(Screen.Notifications.route) {
             NotificationsScreen(navController)
+        }
+        composable(Screen.Insights.route) {
+            InsightsScreen(navController, viewModel)
+        }
+        composable(Screen.Challenges.route) {
+            ChallengesScreen(navController, viewModel)
+        }
+        composable(Screen.SessionHistory.route) {
+            SessionHistoryScreen(navController, viewModel)
         }
     }
 }

@@ -1,7 +1,10 @@
 package com.example.hustlebuddy.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
@@ -19,13 +22,22 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hustlebuddy.navigation.Screen
 import com.example.hustlebuddy.ui.components.BottomNavigationBar
+import com.example.hustlebuddy.ui.components.SectionHeader
 import com.example.hustlebuddy.viewmodel.StudyBuddyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController, viewModel: StudyBuddyViewModel) {
     val user by viewModel.user.collectAsState()
-    var isDarkMode by remember { mutableStateOf(false) }
+    var selectedTheme by remember { mutableStateOf("Default") }
+    
+    val themes = listOf(
+        "Default" to MaterialTheme.colorScheme.primary,
+        "Focus" to Color(0xFF1A237E),
+        "Calm" to Color(0xFF2E7D32),
+        "Night" to Color(0xFF4A148C),
+        "Exam" to Color(0xFFB71C1C)
+    )
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("Profile") }) },
@@ -40,7 +52,7 @@ fun ProfileScreen(navController: NavController, viewModel: StudyBuddyViewModel) 
         ) {
             Box(
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(100.dp)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
@@ -48,39 +60,56 @@ fun ProfileScreen(navController: NavController, viewModel: StudyBuddyViewModel) 
                 Icon(
                     Icons.Default.Person,
                     contentDescription = null,
-                    modifier = Modifier.size(80.dp),
+                    modifier = Modifier.size(60.dp),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Text(text = user.name, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Text(text = user.email, color = Color.Gray)
+            Text(text = user.name, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            Text(text = user.email, color = Color.Gray, style = MaterialTheme.typography.bodySmall)
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(24.dp))
+
+            SectionHeader(title = "Study Mode Themes")
+            // TODO: x10 Save theme preference
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(themes) { (name, color) ->
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Box(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .clip(CircleShape)
+                                .background(color)
+                                .clickable { selectedTheme = name }
+                                .padding(4.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (selectedTheme == name) {
+                                Icon(Icons.Default.Check, null, tint = Color.White)
+                            }
+                        }
+                        Text(text = name, style = MaterialTheme.typography.labelSmall)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             ProfileMenuItem(icon = Icons.Default.Edit, label = "Edit Profile") {
                 // TODO: future profile backend logic will connect
             }
-            ProfileMenuItem(icon = Icons.Default.Notifications, label = "Notifications") {
-                navController.navigate(Screen.Notifications.route)
+            ProfileMenuItem(icon = Icons.Default.History, label = "Session History") {
+                navController.navigate(Screen.SessionHistory.route)
             }
-            
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.DarkMode, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(text = "Dark Mode", fontSize = 16.sp)
-                }
-                Switch(checked = isDarkMode, onCheckedChange = { isDarkMode = it })
+            ProfileMenuItem(icon = Icons.Default.EmojiEvents, label = "My Achievements") {
+                navController.navigate(Screen.Challenges.route)
             }
+            ProfileMenuItem(icon = Icons.Default.Settings, label = "Settings") { }
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -91,7 +120,10 @@ fun ProfileScreen(navController: NavController, viewModel: StudyBuddyViewModel) 
                     }
                 },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.errorContainer, contentColor = MaterialTheme.colorScheme.error),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer, 
+                    contentColor = MaterialTheme.colorScheme.error
+                ),
                 shape = MaterialTheme.shapes.medium
             ) {
                 Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null)
@@ -106,18 +138,18 @@ fun ProfileScreen(navController: NavController, viewModel: StudyBuddyViewModel) 
 fun ProfileMenuItem(icon: ImageVector, label: String, onClick: () -> Unit) {
     TextButton(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onSurface)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.width(16.dp))
             Text(text = label, fontSize = 16.sp)
             Spacer(modifier = Modifier.weight(1f))
-            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = Color.Gray)
+            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(16.dp))
         }
     }
 }
