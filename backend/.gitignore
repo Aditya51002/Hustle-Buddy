@@ -1,0 +1,25 @@
+# Dependency directories
+node_modules/
+
+# Environment variables (Crucial: DO NOT PUSH THESE)
+.env
+.env.test
+.env.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+Thumbs.db
