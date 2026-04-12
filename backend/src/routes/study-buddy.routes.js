@@ -54,9 +54,9 @@ router.route('/sessions')
 // Quizzes
 router.get('/quizzes', getQuizzes);
 router.post('/quizzes', createQuiz); // Admin or Seed
-router.get('/quizzes/:id', getQuizById);
-router.post('/quizzes/submit', submitQuizResult);
 router.get('/quizzes/results', getQuizResults);
+router.post('/quizzes/submit', submitQuizResult);
+router.get('/quizzes/:id', getQuizById);
 
 // Goals
 router.route('/goals')

@@ -43,6 +43,9 @@ class StudyBuddyService {
 
     // Tasks
     async createTask(userId, taskData) {
+        const subject = await Subject.findOne({ _id: taskData.subjectId, userId });
+        if (!subject) throw new ApiError(404, 'Subject not found');
+
         return await Task.create({ ...taskData, userId });
     }
 
@@ -85,6 +88,9 @@ class StudyBuddyService {
 
     // Schedules
     async createSchedule(userId, scheduleData) {
+        const subject = await Subject.findOne({ _id: scheduleData.subjectId, userId });
+        if (!subject) throw new ApiError(404, 'Subject not found');
+
         return await Schedule.create({ ...scheduleData, userId });
     }
 
@@ -110,12 +116,16 @@ class StudyBuddyService {
 
     // Sessions
     async createSession(userId, sessionData) {
+        const subject = await Subject.findOne({ _id: sessionData.subjectId, userId });
+        if (!subject) throw new ApiError(404, 'Subject not found');
+
         const session = await Session.create({ ...sessionData, userId });
-        
-        // Update subject total study time
-        await Subject.findByIdAndUpdate(sessionData.subjectId, {
-            $inc: { totalStudyMinutes: sessionData.actualMinutes }
-        });
+
+        // Update subject total study time for the same owner
+        await Subject.findOneAndUpdate(
+            { _id: sessionData.subjectId, userId },
+            { $inc: { totalStudyMinutes: sessionData.actualMinutes } }
+        );
 
         // Add XP to user (2 XP per minute)
         await this.addXP(userId, Math.floor(sessionData.actualMinutes * 2));
@@ -128,9 +138,9 @@ class StudyBuddyService {
         if (filters.subjectId) query.subjectId = filters.subjectId;
         if (filters.date) {
             const start = new Date(filters.date);
-            start.setHours(0,0,0,0);
+            start.setHours(0, 0, 0, 0);
             const end = new Date(filters.date);
-            end.setHours(23,59,59,999);
+            end.setHours(23, 59, 59, 999);
             query.startedAt = { $gte: start, $lte: end };
         }
         return await Session.find(query).populate('subjectId', 'subjectName color');
@@ -216,14 +226,16 @@ class StudyBuddyService {
     // Gamification & XP
     async addXP(userId, amount) {
         const user = await User.findById(userId);
+        if (!user) throw new ApiError(404, 'User not found');
+
         user.xp += amount;
-        
+
         // Level logic
         if (user.xp > 10000) user.level = 'Study Guru';
         else if (user.xp > 5000) user.level = 'Study Master';
         else if (user.xp > 2000) user.level = 'Advanced Learner';
         else if (user.xp > 500) user.level = 'Consistent Learner';
-        
+
         await user.save();
         return user;
     }
@@ -232,7 +244,7 @@ class StudyBuddyService {
     async getAnalyticsSummary(userId) {
         const totalSessions = await Session.countDocuments({ userId });
         const totalTasks = await Task.countDocuments({ userId, completed: true });
-        
+
         const sessions = await Session.find({ userId });
         const totalMinutes = sessions.reduce((acc, curr) => acc + curr.actualMinutes, 0);
 
